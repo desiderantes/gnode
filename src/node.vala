@@ -6,7 +6,7 @@ namespace GNode{
 		public double x{ get; private set;}
 		public double y{ get; private set;}
 		private uint radius = 1;
-		public Gee.ArrayList<Link> edges { get; private owned set;}
+		public Gee.ArrayList<Link> edges { get; private set;}
 		public uint degree{ get{
 			return edges.size;
 		}}
