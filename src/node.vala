@@ -28,14 +28,14 @@ namespace GNode{
 		}
 		
 		public void connect_to (Node dest, double weigth){
-			Link edge = new Link(this, dest, weigth, graph);
+			GNode.Link edge = new GNode.Link(this, dest, weigth, graph);
 			edges.add(edge);
 			graph.add_edge(edge);
 			
 		}
 		
 		public void siege (Node next){
-			foreach (Link edge in edges){
+			foreach (GNode.Link edge in edges){
 				if(edge.get_pair(this) == next){
 					this.unlink(edge);
 					next.unlink(edge);
@@ -44,12 +44,19 @@ namespace GNode{
 		}
 		
 		public void draw(Cairo.Context ctx){
+			ctx.save ();
+
+			ctx.set_tolerance (0.1);
+			ctx.set_line_join (Cairo.LineJoin.ROUND);
+			ctx.set_line_width (1);
+
 			ctx.set_source_rgba (0,0,0,0);
-			ctx.set_line_width (3.0);
-			ctx_move_to(x, y);
+
+			//ctx_move_to(x, y);
 			ctx.arc (x, y, 5.0, 0, 2*Math.PI);
 			ctx.stroke_preserve();
 			ctx.fill ();
+			ctx.close_path ();
 		}
 
 		public bool clicked(Gdk.Point click){

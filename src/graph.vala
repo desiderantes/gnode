@@ -53,6 +53,12 @@ namespace GNode{
 		
 		
 		public void draw(Cairo.Context ctx){
+			if (ctx == null)
+				return;
+			ctx.set_source_rgba(1, 1, 1, 1);
+			/* blank screen */
+			ctx.paint();
+
 			foreach (GNode.Node node in nodes){
 				node.draw(ctx);
 			}

@@ -68,7 +68,7 @@
                 <property name="label" translatable="yes">_Connect nodes</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-connect</property>
-                <signal name="clicked" handler="gnode_window_on_add_edge" swapped="no"/>
+                <signal name="clicked" handler="on_add_edge" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

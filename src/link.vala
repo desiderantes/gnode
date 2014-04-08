@@ -28,7 +28,7 @@ namespace GNode{
 		}
 		
 		public void draw(Cairo.Context ctx){
-			ctx_move_to(src.x, src.y);
+			ctx.move_to(src.x, src.y);
 			ctx.line_to(dst.x, dst.y);
 			ctx.stroke();
 		}
