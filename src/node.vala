@@ -3,6 +3,7 @@ namespace GNode{
 		
 		public string label { get; private set;}
 		private Graph graph;
+		public double distance = double.INFINITY;
 		public double x{ get; private set;}
 		public double y{ get; private set;}
 		private uint radius = 1;
@@ -18,6 +19,14 @@ namespace GNode{
 			this.x = x;
 			this.y = y;
 			
+		}
+
+		public Gee.ArrayList<Node> get_adjacency_list() {
+			var adjacency = new Gee.ArrayList<Node>();
+			foreach (Linke edge in edges){
+				adjacency.add(edge.get_pair(this));
+			}
+			return adjacency;
 		}
 		
 		public void connect_from (Node source, Link edge ){
@@ -48,7 +57,7 @@ namespace GNode{
 
 			ctx.set_tolerance (0.1);
 			ctx.set_line_join (Cairo.LineJoin.ROUND);
-			ctx.set_line_width (1);
+			ctx.set_line_width (9);
 
 			ctx.set_source_rgba (0,0,0,0);
 

@@ -21,6 +21,7 @@ namespace GNode{
 			graph = new Graph("New Graph");
 			this.application = parent;
 			setup_treeview();
+			graph.state_changed.connect(setup_treeview);
 			node_area.add_events (Gdk.EventMask.BUTTON_PRESS_MASK);
 			adding_node = false;
 			adding_edge = false;
@@ -33,10 +34,15 @@ namespace GNode{
 
 		private void setup_treeview () {
 
+			treestore.clear();
 			Gtk.TreeIter root;
 			Gtk.TreeIter info_iter;
 			Gtk.TreeIter value_iter;
 
+			view.insert_column_with_attributes (-1, "Info", new Gtk.CellRendererText (), "text", 0, null);
+			view.insert_column_with_attributes (-1, "Value", new Gtk.CellRendererText (), "text", 1, null);
+
+			
 			treestore.append (out root, null);
 			treestore.set (root, 0, graph.title, -1);
 
