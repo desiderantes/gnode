@@ -60,7 +60,8 @@ namespace GNode{
 				edge.draw(ctx);
 			}
 
-			
+			ctx.paint ();
+			           
 
 		}
 		
