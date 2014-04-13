@@ -10,7 +10,7 @@
     <columns>
       <!-- column-name Info -->
       <column type="gchararray"/>
-      <!-- column-name Value -->
+      <!-- column-name View -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -36,7 +36,8 @@
             <child>
               <object class="GtkToolButton" id="toolbutton1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Add a node</property>
                 <property name="label" translatable="yes">_Add node</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-add</property>
@@ -50,7 +51,8 @@
             <child>
               <object class="GtkToolButton" id="toolbutton3">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Delete a node</property>
                 <property name="label" translatable="yes">_Delete node</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-delete</property>
@@ -64,7 +66,8 @@
             <child>
               <object class="GtkToolButton" id="toolbutton4">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Add edge</property>
                 <property name="label" translatable="yes">_Connect nodes</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-connect</property>
@@ -78,7 +81,8 @@
             <child>
               <object class="GtkToolButton" id="toolbutton2">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Delete edge</property>
                 <property name="label" translatable="yes">_Remove connection</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-disconnect</property>
@@ -103,7 +107,7 @@
             <child>
               <object class="GtkToolButton" id="menu_button">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Options</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-properties</property>
@@ -167,7 +171,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkStatusbar" id="statusbar1">
+          <object class="GtkStatusbar" id="bar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="margin_left">10</property>

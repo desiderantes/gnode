@@ -1,17 +1,19 @@
 namespace GNode{
 	public class Link : GLib.Object{
 		
-		private Node? src;
-		private Node? dst;
+		public Node? src{ get; private set;}
+		public Node? dst{ get; private set;}
 		public double weight { get; private set;}
 		private uint8 unlinked;
 		private Graph parent ;
+		public bool selected;
 	
 		public Link(Node src, Node dst, double weight, Graph parent){
 			this.weight = weight;
 			this.src = src;
 			this.dst = dst;
 			unlinked = 0;
+			this.selected = false;
 		}
 		
 		public bool contains (Node node){

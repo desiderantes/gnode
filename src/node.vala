@@ -3,7 +3,7 @@ namespace GNode{
 		
 		public string label { get; private set;}
 		private Graph graph;
-		public double distance = double.INFINITY;
+		public bool selected;
 		public double x{ get; private set;}
 		public double y{ get; private set;}
 		private uint radius = 1;
@@ -18,6 +18,7 @@ namespace GNode{
 			this.edges = new Gee.ArrayList<Link>();
 			this.x = x;
 			this.y = y;
+			this.selected = false;
 			
 		}
 
@@ -58,14 +59,19 @@ namespace GNode{
 			ctx.set_tolerance (0.1);
 			ctx.set_line_join (Cairo.LineJoin.ROUND);
 			ctx.set_line_width (9);
+			if(selected){
+				ctx.set_source_rgba(0.0, 0.0, 0.8, 0.6);
+			}else{
+				ctx.set_source_rgba(0.3, 0.9, 0.9, 1);
+			}
 
-			ctx.set_source_rgba (0,0,0,01);
-
-			ctx_move_to(x, y);
-			ctx.arc (x, y, 5.0, 0, 2*Math.PI);
-			ctx.stroke_preserve();
-			ctx.fill ();
+			ctx.move_to(x, y);
+			ctx.arc (x, y, 7, 0, 2*Math.PI);
+			ctx.fill_preserve();
+			ctx.stroke();
 			ctx.close_path ();
+			ctx.restore();
+			
 		}
 
 		public bool clicked(Gdk.Point click){

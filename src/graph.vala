@@ -50,19 +50,19 @@ namespace GNode{
 		public Gee.ArrayList<Link> spanning_tree(Node src, Node dst){
 
 			var path = new Gee.ArrayList<Link>();
-			var sorteds = new Gee.ArrayQueue<Link>();
+			var sorteds = new Gee.LinkedList<Link>();
 			sorteds.add_all(edges);
 			sorteds.sort((a,b)=>{ 
-				if(a.weight > b.weight()){ 
+				if(a.weight > b.weight){ 
 					return -1;
-				}else if(a.weight) < b.weight){ 
+				}else if(a.weight < b.weight){ 
 					return 1;
 				} else{ 
 					return 0;
 				}
 			});
 			Link e = sorteds.peek();
-			while (!sorteds.is_empty()){
+			while (!sorteds.is_empty){
 				e = sorteds.poll();
 				Node start = e.src;
         		Node end = e.dst;
@@ -71,7 +71,7 @@ namespace GNode{
 				var queue = new Gee.LinkedList<Node>();
 				checked.add(start);
 				queue.offer(start);
-				while(!queue.is_empty()){
+				while(!queue.is_empty){
 					Node tmp = queue.poll();
 					if (tmp == end){
 						delete_ok = true;
@@ -81,7 +81,7 @@ namespace GNode{
 					var edge_list = tmp.edges;
 					foreach (Link link in edges){
 						if(link != e){
-							if(!checked.contains(link.dst){
+							if(!checked.contains(link.dst)){
 								queue.offer(link.dst);
 								checked.add(link.dst);
 							}
@@ -118,7 +118,7 @@ namespace GNode{
 				return;
 			ctx.set_source_rgba(1, 1, 1, 1);
 			/* blank screen */
-			ctx.paint();
+			
 			
 			foreach (GNode.Link edge in edges){
 				edge.draw(ctx);
@@ -128,8 +128,7 @@ namespace GNode{
 			}
 			
 
-			ctx.paint ();
-
+		
 
 		}
 
