@@ -43,39 +43,64 @@ namespace GNode{
 			state_changed();
 		}
 
+		/*
+		 * Returns the minimal spanning tree, if the graph is connected
+		 * if not, returns the minimal spanning forest
+		 */
+		public Gee.ArrayList<Link> spanning_tree(Node src, Node dst){
 
-		public Gee.ArrayList<Link> shortest_path(Node src, Node dst){
-
-			var previous = new new HashMap<Node, Node?>();
 			var path = new Gee.ArrayList<Link>();
-			var distance = new HashMap<Node, double>();
-			var stack = new Gee.PriorityQueue<Node>((a,b)=>{ 
-				if(a.degree() > b.degree()){ 
-					return 1;
-				}else if(a.degree() < b.degree()){ 
+			var sorteds = new Gee.ArrayQueue<Link>();
+			sorteds.add_all(edges);
+			sorteds.sort((a,b)=>{ 
+				if(a.weight > b.weight()){ 
 					return -1;
+				}else if(a.weight) < b.weight){ 
+					return 1;
 				} else{ 
 					return 0;
 				}
 			});
+			Link e = sorteds.peek();
+			while (!sorteds.is_empty()){
+				e = sorteds.poll();
+				Node start = e.src;
+        		Node end = e.dst;
+        		bool delete_ok = false;
+				var checked = new Gee.ArrayList<Node>();
+				var queue = new Gee.LinkedList<Node>();
+				checked.add(start);
+				queue.offer(start);
+				while(!queue.is_empty()){
+					Node tmp = queue.poll();
+					if (tmp == end){
+						delete_ok = true;
+						break;
+					}
 
-			
-			distance.set(src, 0);
-			stack.add(src);
-			while (stack.size() != 0){
-				Node u = stack.poll();
-				for (Link edge in u.edges){
-					
+					var edge_list = tmp.edges;
+					foreach (Link link in edges){
+						if(link != e){
+							if(!checked.contains(link.dst){
+								queue.offer(link.dst);
+								checked.add(link.dst);
+							}
+						}
+					}
+				}
+
+				if(!delete_ok){
+					sorteds.offer(e);
 				}
 			}
+			
+			
 			state_changed();
+			path.add_all(sorteds);
 			return path;
 
 		}
 
-		private void chill(){
-
-		}
 
 		public void remove_edge(Link edge){
 			edges.remove(edge);
@@ -94,13 +119,14 @@ namespace GNode{
 			ctx.set_source_rgba(1, 1, 1, 1);
 			/* blank screen */
 			ctx.paint();
-
-			foreach (GNode.Node node in nodes){
-				node.draw(ctx);
-			}
+			
 			foreach (GNode.Link edge in edges){
 				edge.draw(ctx);
 			}
+			foreach (GNode.Node node in nodes){
+				node.draw(ctx);
+			}
+			
 
 			ctx.paint ();
 

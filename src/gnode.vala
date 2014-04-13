@@ -26,7 +26,7 @@ namespace GNode{
 			adding_node = false;
 			adding_edge = false;
 			cheap_path = null;
-			graph.add_node (new GNode.Node("test1", graph, node_area.get_allocated_width ()/2,node_area.get_allocated_height () / 2));
+			graph.add_node (new GNode.Node("test1", graph, 10,10);
 			graph.add_node (new GNode.Node("test2", graph, node_area.get_allocated_width ()/2 + 30,200));
 			cheapest_path = false;
 			node_area.queue_draw();

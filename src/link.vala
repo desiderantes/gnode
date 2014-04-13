@@ -28,9 +28,15 @@ namespace GNode{
 		}
 		
 		public void draw(Cairo.Context ctx){
-			ctx.move_to(src.x, src.y);
-			ctx.line_to(dst.x, dst.y);
-			ctx.stroke();
+			if(src !=dst){
+				ctx.move_to(src.x, src.y);
+				ctx.line_to(dst.x, dst.y);
+				ctx.stroke();
+			}else {
+				ctx.move_to(src.x, src.y);
+				ctx.curve_to(src.x,src.y, src.x < dst.x? src.x : dst.x, src.y < dst.y? src.y : dst.y, dst.x, dst.y);
+				ctx.stroke();
+			}
 		}
 		
 		public void unlink(Node node){

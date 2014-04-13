@@ -23,7 +23,7 @@ namespace GNode{
 
 		public Gee.ArrayList<Node> get_adjacency_list() {
 			var adjacency = new Gee.ArrayList<Node>();
-			foreach (Linke edge in edges){
+			foreach (Link edge in edges){
 				adjacency.add(edge.get_pair(this));
 			}
 			return adjacency;
@@ -59,9 +59,9 @@ namespace GNode{
 			ctx.set_line_join (Cairo.LineJoin.ROUND);
 			ctx.set_line_width (9);
 
-			ctx.set_source_rgba (0,0,0,0);
+			ctx.set_source_rgba (0,0,0,01);
 
-			//ctx_move_to(x, y);
+			ctx_move_to(x, y);
 			ctx.arc (x, y, 5.0, 0, 2*Math.PI);
 			ctx.stroke_preserve();
 			ctx.fill ();
