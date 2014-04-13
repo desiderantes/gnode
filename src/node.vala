@@ -6,7 +6,7 @@ namespace GNode{
 		public bool selected;
 		public double x{ get; private set;}
 		public double y{ get; private set;}
-		private uint radius = 1;
+		private double radius = 8;
 		public Gee.ArrayList<Link> edges { get; private set;}
 		public uint degree{ get{
 			return edges.size;
@@ -62,20 +62,21 @@ namespace GNode{
 			if(selected){
 				ctx.set_source_rgba(0.0, 0.0, 0.8, 0.6);
 			}else{
-				ctx.set_source_rgba(0.3, 0.9, 0.9, 1);
+				ctx.set_source_rgba(0.1, 0.1, 0.1, 1);
 			}
 
 			ctx.move_to(x, y);
-			ctx.arc (x, y, 7, 0, 2*Math.PI);
+			ctx.arc (x, y, radius, 0, 2*Math.PI);
 			ctx.fill_preserve();
 			ctx.stroke();
 			ctx.close_path ();
 			ctx.restore();
 			
 		}
+		
 
-		public bool clicked(Gdk.Point click){
-			double dist = Math.sqrt(Math.pow((click.x - x),2) + Math.pow((click.y - y),2));
+		public bool clicked(double xc, double yc){
+			double dist = Math.sqrt(Math.pow((xc - x),2) + Math.pow((yc - y),2));
 			return  dist< radius;
 		}
 		

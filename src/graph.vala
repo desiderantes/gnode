@@ -2,8 +2,8 @@ namespace GNode{
 	public class Graph : GLib.Object{
 
 		public string title{ get; private set;}
-		private Gee.ArrayList<Node> nodes{ public get; private set;}
-		private Gee.ArrayList<Link> edges{ public get; private set;}
+		public Gee.ArrayList<Node> nodes{ public get; private set;}
+		public Gee.ArrayList<Link> edges{ public get; private set;}
 		public Graph(string? title){
 			if(title == null){
 				this.title = "";
@@ -38,10 +38,6 @@ namespace GNode{
 			return false;
 		}
 
-		public void remove_link(Link edge){
-			edges.remove(edge);
-			state_changed();
-		}
 
 		/*
 		 * Returns the minimal spanning tree, if the graph is connected
@@ -133,9 +129,8 @@ namespace GNode{
 		}
 
 		public void remove_node(Node node){
-			foreach (Link e in node.edges){
-				e.get_pair(node).unlink(e);
-				node.unlink(e);
+			foreach (Node e in nodes){
+				e.siege(node);
 			}
 
 			nodes.remove(node);

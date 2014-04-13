@@ -30,6 +30,11 @@ namespace GNode{
 		}
 		
 		public void draw(Cairo.Context ctx){
+			if(selected){
+				ctx.set_source_rgba(0.0, 0.0, 0.8, 0.6);
+			}else{
+				ctx.set_source_rgba(1, 0.9, 0.9, 1);
+			}
 			if(src !=dst){
 				ctx.move_to(src.x, src.y);
 				ctx.line_to(dst.x, dst.y);
