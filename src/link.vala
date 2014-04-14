@@ -35,15 +35,36 @@ namespace GNode{
 			}else{
 				ctx.set_source_rgba(1, 0.9, 0.9, 1);
 			}
+			ctx.set_line_width(3.0);
+			ctx.move_to(src.x, src.y);
 			if(src !=dst){
-				ctx.move_to(src.x, src.y);
 				ctx.line_to(dst.x, dst.y);
-				ctx.stroke();
-			}else {
-				ctx.move_to(src.x, src.y);
-				ctx.curve_to(src.x,src.y, src.x < dst.x? src.x : dst.x, src.y < dst.y? src.y : dst.y, dst.x, dst.y);
-				ctx.stroke();
+			}else if(parent.similar_edges(this) > 0){
+				uint howmuch = parent.similar_edges(this);
+				if(howmuch % 2 == 0){
+					ctx.curve_to(src.x,src.y, src.x < dst.x? src.x + (howmuch * 5) : dst.x  + (howmuch * 5), src.y < dst.y? src.y  + (howmuch * 5) : dst.y  + (howmuch * 5), dst.x, dst.y);
+				}else{
+					ctx.curve_to(src.x,src.y, src.x > dst.x? src.x  + (howmuch * 5) : dst.x  + (howmuch * 5), src.y > dst.y? src.y  + (howmuch * 5) : dst.y  + (howmuch * 5), dst.x, dst.y);
+				}
+				
+			}else{
+				ctx.curve_to(src.x,src.y,src.x + 50, src.y + 50, src.x,src.y);
 			}
+			ctx.stroke();
+		}
+
+		public bool clicked(double xc, double yc){
+			if(src != dst){
+				
+			}else{
+				
+			}
+
+			return false;
+		}
+
+		public string to_string(){
+			return "Edge of weight " + weight.to_string() + " from " + src.label + " to " + dst.label;
 		}
 		
 		public void unlink(Node node){

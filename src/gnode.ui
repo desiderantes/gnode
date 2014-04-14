@@ -2,6 +2,12 @@
 <!-- Generated with glade 3.16.1 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
+  <object class="GtkListStore" id="edge_list">
+    <columns>
+      <!-- column-name Data -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkMenu" id="menu">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -111,6 +117,7 @@
                 <property name="label" translatable="yes">_Options</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-properties</property>
+                <signal name="clicked" handler="get_spanning_tree" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -285,7 +292,7 @@
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Insert a label for the new Node</property>
+            <property name="label" translatable="yes">Select an edge to delete</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -306,6 +313,7 @@
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
                 <property name="always_show_image">True</property>
+                <signal name="clicked" handler="edge_remove" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -322,11 +330,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="entry1">
+          <object class="GtkComboBox" id="node_combo">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_length">10</property>
-            <property name="input_purpose">name</property>
+            <property name="can_focus">False</property>
+            <property name="model">edge_list</property>
           </object>
           <packing>
             <property name="expand">False</property>

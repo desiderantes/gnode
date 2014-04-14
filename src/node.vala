@@ -57,10 +57,10 @@ namespace GNode{
 			ctx.save ();
 
 			ctx.set_tolerance (0.1);
-			ctx.set_line_join (Cairo.LineJoin.ROUND);
-			ctx.set_line_width (9);
+			
+			ctx.set_line_width (3);
 			if(selected){
-				ctx.set_source_rgba(0.0, 0.0, 0.8, 0.6);
+				ctx.set_source_rgba(0.82, 0.197, 0.88, 0.6);
 			}else{
 				ctx.set_source_rgba(0.1, 0.1, 0.1, 1);
 			}

@@ -23,9 +23,13 @@ namespace GNode{
 		private bool removing_node;
 		private bool removing_edge;
 		private bool has_spanning_tree;
-		private Gee.ArrayList<Link>? spanning_tree;
+		private Gee.ArrayList<Link> spanning_tree;
 		private Gee.ArrayList<ulong> handlers;
 		private Node to_link[2];
+		[GtkChild]
+		private Gtk.ListStore edge_list;
+		[GtkChild]
+		private Gtk.ComboBox node_combo;
 		[GtkChild]
 		private Gtk.Entry weight_entry;
 
@@ -40,7 +44,7 @@ namespace GNode{
 			handlers = new Gee.ArrayList<ulong>();
 			adding_node = false;
 			adding_edge = false;
-			spanning_tree = null;
+			spanning_tree = new Gee.ArrayList<Link>();
 			graph.add_node (new GNode.Node("test1", graph, 10,10));
 			graph.add_node (new GNode.Node("test2", graph, node_area.get_allocated_width ()/2 + 30,200));
 			has_spanning_tree = false;
@@ -115,8 +119,8 @@ namespace GNode{
 			disconnect_handlers();
 			GLib.print ("That makes me moist");
 			uint context_id = bar.get_context_id ("remove_edge");
-			bar.push (context_id, "Click on an edge to remove it");
-			handlers.add(node_area.button_press_event.connect(edge_removing));
+			bar.push (context_id, "Select an edge to remove from teh given list");
+			edge_removing();
 			removing_edge = true;
 		}
 		[GtkCallback]
@@ -173,9 +177,14 @@ namespace GNode{
 				if (node.clicked(event.x,event.y)){
 					if(to_link[0] == null){
 						to_link[0] = node;
+						node.selected = true;
+						node_area.queue_draw();
 					}else if(to_link[1] == null){
 						to_link[1] = node;
+						node.selected = true;
+						node_area.queue_draw();
 						edge_dialog.show();
+						
 					}
 					break;
 				}
@@ -183,21 +192,41 @@ namespace GNode{
 			return true;
 		}
 
+  
+		public bool edge_removing(){
+			edge_list.clear();
+			Gtk.TreeIter iter;
 
-		public bool edge_removing(Gdk.EventButton event){
+	
+			foreach(Link edge in graph.edges){
+					edge_list.append (out iter);
+					edge_list.set (iter, 0,edge);	
+			}
+			node_dialog.show();
 			return true;
 		}
 		
 		[GtkCallback]
 		public void weight_add(){
-			edge_dialog.close();
+			edge_dialog.hide();
 			if(to_link[0] != null && to_link[1] != null){
 				to_link[0].connect_to(to_link[1], double.parse (weight_entry.text));
+				to_link[0].selected = false;
+				to_link[1].selected = false;
 				node_area.queue_draw();
 			}
 			to_link[0] = null;
 			to_link[1] = null;
 			weight_entry.set_text("");
+			disconnect_handlers();
+		}
+
+		[GtkCallback]
+		public void edge_remove(){
+			Link edge = graph.edges.get(node_combo.active);
+			graph.remove_edge(edge);
+			node_dialog.hide();
+			node_area.queue_draw();
 		}
 		
 		private void disconnect_handlers(){
@@ -211,7 +240,23 @@ namespace GNode{
 			removing_edge = false;
 			
 		}
+		[GtkCallback]
+		public void get_spanning_tree(){
+			GLib.print("Testing spanning_tree");
+			spanning_tree.add_all(graph.spanning_tree());
+			foreach (Link edge in spanning_tree){
+				edge.selected = true;
+			}
+			graph.state_changed.connect(invalidate_spanning);
+		}
 		
+		public void invalidate_spanning(){
+			foreach (Link edge in spanning_tree){
+				edge.selected = false;
+			}
+			graph.state_changed.disconnect(invalidate_spanning);
+			node_area.queue_draw();
+		}
 
 
 

@@ -125,7 +125,10 @@ link.o: link.c /usr/include/stdc-predef.h /usr/include/glib-2.0/glib.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
  /usr/include/cairo/cairo.h /usr/include/cairo/cairo-version.h \
  /usr/include/cairo/cairo-features.h \
- /usr/include/cairo/cairo-deprecated.h
+ /usr/include/cairo/cairo-deprecated.h /usr/include/stdlib.h \
+ /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+ /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/string.h
 
 /usr/include/stdc-predef.h:
 
@@ -428,3 +431,15 @@ link.o: link.c /usr/include/stdc-predef.h /usr/include/glib-2.0/glib.h \
 /usr/include/cairo/cairo-features.h:
 
 /usr/include/cairo/cairo-deprecated.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+
+/usr/include/alloca.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/string.h:

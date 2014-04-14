@@ -43,7 +43,7 @@ namespace GNode{
 		 * Returns the minimal spanning tree, if the graph is connected
 		 * if not, returns the minimal spanning forest
 		 */
-		public Gee.ArrayList<Link> spanning_tree(Node src, Node dst){
+		public Gee.ArrayList<Link> spanning_tree(){
 
 			var path = new Gee.ArrayList<Link>();
 			var sorteds = new Gee.LinkedList<Link>();
@@ -75,7 +75,7 @@ namespace GNode{
 					}
 
 					var edge_list = tmp.edges;
-					foreach (Link link in edges){
+					foreach (Link link in edge_list){
 						if(link != e){
 							if(!checked.contains(link.dst)){
 								queue.offer(link.dst);
@@ -122,12 +122,21 @@ namespace GNode{
 			foreach (GNode.Node node in nodes){
 				node.draw(ctx);
 			}
-			
-
-		
 
 		}
 
+		public uint similar_edges(Link edge){
+			uint res = 0;
+			foreach (Link e in edges){
+				if(edge != e){
+					if(e.contains(edge.src) && edge.contains(edge.dst)){
+						res++;
+					}
+				}
+			}
+			return res;
+		}
+		
 		public void remove_node(Node node){
 			foreach (Node e in nodes){
 				e.siege(node);
