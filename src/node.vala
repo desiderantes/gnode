@@ -6,7 +6,7 @@ namespace GNode{
 		public bool selected;
 		public double x{ get; private set;}
 		public double y{ get; private set;}
-		private double radius = 8;
+		private double radius = 21;
 		public Gee.ArrayList<Link> edges { get; private set;}
 		public uint degree{ get{
 			return edges.size;
@@ -55,12 +55,9 @@ namespace GNode{
 		
 		public void draw(Cairo.Context ctx){
 			ctx.save ();
-
-			ctx.set_tolerance (0.1);
-			
 			ctx.set_line_width (3);
 			if(selected){
-				ctx.set_source_rgba(0.82, 0.197, 0.88, 0.6);
+				ctx.set_source_rgba(0.82, 0.197, 0.88, 0.9);
 			}else{
 				ctx.set_source_rgba(0.1, 0.1, 0.1, 1);
 			}

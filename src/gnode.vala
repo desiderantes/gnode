@@ -45,10 +45,9 @@ namespace GNode{
 			adding_node = false;
 			adding_edge = false;
 			spanning_tree = new Gee.ArrayList<Link>();
-			graph.add_node (new GNode.Node("test1", graph, 10,10));
-			graph.add_node (new GNode.Node("test2", graph, node_area.get_allocated_width ()/2 + 30,200));
 			has_spanning_tree = false;
 			node_area.queue_draw();
+			
 		}
 
 		private void setup_treeview () {
@@ -248,6 +247,7 @@ namespace GNode{
 				edge.selected = true;
 			}
 			graph.state_changed.connect(invalidate_spanning);
+			node_area.queue_draw();
 		}
 		
 		public void invalidate_spanning(){

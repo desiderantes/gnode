@@ -1,7 +1,5 @@
 namespace GNode{
 	public class App : Gtk.Application{
-	
-	
 		
 		public App(){
 			Object(application_id: "com.nongnu.gnode",

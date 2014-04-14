@@ -46,7 +46,7 @@ namespace GNode{
 		public Gee.ArrayList<Link> spanning_tree(){
 
 			var path = new Gee.ArrayList<Link>();
-			var sorteds = new Gee.LinkedList<Link>();
+			var sorteds = new Gee.ArrayList<Link>();
 			sorteds.add_all(edges);
 			sorteds.sort((a,b)=>{ 
 				if(a.weight > b.weight){ 
@@ -57,9 +57,10 @@ namespace GNode{
 					return 0;
 				}
 			});
-			Link e = sorteds.peek();
+			Link e = sorteds.first();
 			while (!sorteds.is_empty){
-				e = sorteds.poll();
+				e = sorteds.first();
+				sorteds.remove(e);
 				Node start = e.src;
         		Node end = e.dst;
         		bool delete_ok = false;
@@ -86,7 +87,7 @@ namespace GNode{
 				}
 
 				if(!delete_ok){
-					sorteds.offer(e);
+					sorteds.add(e);
 				}
 			}
 			
