@@ -4,8 +4,6 @@ namespace GNode{
 	public class Window : Gtk.ApplicationWindow{
 
 		[GtkChild]
-		private Gtk.Menu menu;
-		[GtkChild]
 		private Gtk.TreeStore treestore;
 		[GtkChild]
 		private Gtk.TreeView view;
@@ -27,9 +25,7 @@ namespace GNode{
 		private Gee.ArrayList<ulong> handlers;
 		private Node to_link[2];
 		[GtkChild]
-		private Gtk.ListStore edge_list;
-		[GtkChild]
-		private Gtk.ComboBox node_combo;
+		private Gtk.ComboBoxText node_combo;
 		[GtkChild]
 		private Gtk.Entry weight_entry;
 
@@ -40,6 +36,8 @@ namespace GNode{
 			view.insert_column_with_attributes (-1, "Value", new Gtk.CellRendererText (), "text", 1, null);
 			setup_treeview();
 			node_area.add_events (Gdk.EventMask.BUTTON_PRESS_MASK);
+			handlers = new Gee.ArrayList<ulong>();
+			graph.state_changed.connect(disconnect_handlers);
 			graph.state_changed.connect(setup_treeview);
 			handlers = new Gee.ArrayList<ulong>();
 			adding_node = false;
@@ -75,7 +73,7 @@ namespace GNode{
 			treestore.set (value_iter, 0, "Adding Edge", 1, adding_edge.to_string(), -1);
 
 			if(has_spanning_tree){
-				Gtk.TreeIter span_iter;
+				
 				treestore.append (out info_iter, root);
 				treestore.set (info_iter, 0, "Spanning Tree", -1);
 
@@ -88,7 +86,7 @@ namespace GNode{
 		[GtkCallback]
 		public void on_add_node(){
 			disconnect_handlers();
-			GLib.print ("Whoah thanks!");
+			GLib.print ("Whoah thanks!\n");
 			uint context_id = bar.get_context_id ("add_node");
 			bar.push (context_id, "Double click on an empty space on the right surface to add a node");
 			adding_node = true;
@@ -98,7 +96,7 @@ namespace GNode{
 		[GtkCallback]
 		public void on_add_edge(){
 			disconnect_handlers();
-			GLib.print ("Dude wut?");
+			GLib.print ("Dude wut?\n");
 			uint context_id = bar.get_context_id ("add_edge");
 			bar.push (context_id, "Click on two nodes to add an edge between them");
 			handlers.add(node_area.button_press_event.connect(edge_adding));
@@ -107,7 +105,7 @@ namespace GNode{
 		[GtkCallback]
 		public void on_remove_node(){
 			disconnect_handlers();
-			GLib.print ("Stop pls");
+			GLib.print ("Stop pls\n");
 			uint context_id = bar.get_context_id ("remove_node");
 			bar.push (context_id, "Click on a node to delete it, and its edges");
 			handlers.add(node_area.button_press_event.connect(node_removing));
@@ -116,9 +114,9 @@ namespace GNode{
 		[GtkCallback]
 		public void on_remove_edge(){
 			disconnect_handlers();
-			GLib.print ("That makes me moist");
+			GLib.print ("That makes me moist\n");
 			uint context_id = bar.get_context_id ("remove_edge");
-			bar.push (context_id, "Select an edge to remove from teh given list");
+			bar.push (context_id, "Select an edge to remove from the given list");
 			edge_removing();
 			removing_edge = true;
 		}
@@ -126,19 +124,6 @@ namespace GNode{
 		public bool node_draw(Cairo.Context ctx){
 
 			graph.draw(ctx);
-			if(adding_node){
-
-
-
-			}else if(adding_edge){
-
-			} else if (has_spanning_tree){
-
-			}
-
-
-
-
 			return true;
 		}
 
@@ -193,13 +178,9 @@ namespace GNode{
 
   
 		public bool edge_removing(){
-			edge_list.clear();
-			Gtk.TreeIter iter;
-
-	
+			node_combo.remove_all();
 			foreach(Link edge in graph.edges){
-					edge_list.append (out iter);
-					edge_list.set (iter, 0,edge);	
+					node_combo.append_text(edge.to_string());
 			}
 			node_dialog.show();
 			return true;
@@ -222,11 +203,19 @@ namespace GNode{
 
 		[GtkCallback]
 		public void edge_remove(){
-			Link edge = graph.edges.get(node_combo.active);
-			graph.remove_edge(edge);
+			Link edge = null;
+			foreach(Link e in graph.edges){
+				if (e.to_string() == node_combo.get_active_text()){
+					edge = e;
+					break;
+				}
+			}
+			if(edge != null){
+			graph.remove_edge(edge);}
 			node_dialog.hide();
 			node_area.queue_draw();
 		}
+
 		
 		private void disconnect_handlers(){
 			foreach (ulong handler in handlers){
@@ -246,6 +235,7 @@ namespace GNode{
 			foreach (Link edge in spanning_tree){
 				edge.selected = true;
 			}
+			
 			graph.state_changed.connect(invalidate_spanning);
 			node_area.queue_draw();
 		}
@@ -254,6 +244,7 @@ namespace GNode{
 			foreach (Link edge in spanning_tree){
 				edge.selected = false;
 			}
+			spanning_tree.remove_all (spanning_tree);
 			graph.state_changed.disconnect(invalidate_spanning);
 			node_area.queue_draw();
 		}

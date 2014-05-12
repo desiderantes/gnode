@@ -10,9 +10,11 @@ namespace GNode{
 			// Create the window of this application and show it
 			GNode.Window window = new GNode.Window (this);
 			window.show_all ();
+			window.destroy.connect (Gtk.main_quit);
 		}
 	
 		public static int main (string[] args) {
+			Gtk.init(ref args);
 			App app = new App ();
 			return app.run (args);
 		}
