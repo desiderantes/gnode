@@ -38,7 +38,7 @@ namespace GNode{
 			if(edges.size <= (3* nodes.size - 6)){
 				return true;
 			}	
-			if(nodes.size = 2 && is_connected ()){
+			if(nodes.size == 2 && is_connected ()){
 				return true;
 			}
 

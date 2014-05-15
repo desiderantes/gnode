@@ -66,6 +66,8 @@ namespace GNode{
 			treestore.append (out value_iter, info_iter);
 			treestore.set (value_iter, 0, "Connected", 1, graph.is_connected().to_string(), -1);
 			treestore.append (out value_iter, info_iter);
+			treestore.set (value_iter, 0, "Planar", 1, graph.is_planar().to_string(), -1);
+			treestore.append (out value_iter, info_iter);
 			treestore.set (value_iter, 0, "Spanning Tree found", 1, has_spanning_tree.to_string(), -1);
 			treestore.append (out value_iter, info_iter);
 			treestore.set (value_iter, 0, "Adding Node", 1, adding_node.to_string(), -1);
