@@ -15,6 +15,8 @@ namespace GNode{
 		private Gtk.Dialog edge_dialog;
 		[GtkChild]
 		private Gtk.DrawingArea node_area;
+		[GtkChild]
+		private Gtk.DrawingArea planar_area;
 		private Graph graph;
 		private bool adding_node;
 		private bool adding_edge;
@@ -28,7 +30,8 @@ namespace GNode{
 		private Gtk.ComboBoxText node_combo;
 		[GtkChild]
 		private Gtk.Entry weight_entry;
-
+		private AuxGraph auxiliary;
+		
 		public Window( App parent ){
 			graph = new Graph("New Graph");
 			this.application = parent;
@@ -45,9 +48,29 @@ namespace GNode{
 			spanning_tree = new Gee.ArrayList<Link>();
 			has_spanning_tree = false;
 			node_area.queue_draw();
+			auxiliary = new AuxGraph();
+			graph.planarity_found.connect(draw_auxiliary);
 			
 		}
 
+		public void draw_auxiliary(AuxGraph aux){
+			this.auxiliary = aux;
+			planar_area.queue_draw();
+		}
+		[GtkCallback]
+		public bool planar_draw(Cairo.Context ctx){
+			auxiliary.draw(ctx);
+			return true;
+		}
+
+		[GtkCallback]
+		public void is_planar(){
+			disconnect_handlers();
+			if(graph.is_planar()){
+				print("\nWut?");
+			}
+		}
+		
 		private void setup_treeview () {
 			
 			treestore.clear();
@@ -65,8 +88,6 @@ namespace GNode{
 			treestore.set (value_iter, 0, "Number of edges", 1, graph.edges.size.to_string(), -1);
 			treestore.append (out value_iter, info_iter);
 			treestore.set (value_iter, 0, "Connected", 1, graph.is_connected().to_string(), -1);
-			treestore.append (out value_iter, info_iter);
-			treestore.set (value_iter, 0, "Planar", 1, graph.is_planar().to_string(), -1);
 			treestore.append (out value_iter, info_iter);
 			treestore.set (value_iter, 0, "Spanning Tree found", 1, has_spanning_tree.to_string(), -1);
 			treestore.append (out value_iter, info_iter);
@@ -177,8 +198,7 @@ namespace GNode{
 			}
 			return true;
 		}
-
-  
+		
 		public bool edge_removing(){
 			node_combo.remove_all();
 			foreach(Link edge in graph.edges){
@@ -217,7 +237,6 @@ namespace GNode{
 			node_dialog.hide();
 			node_area.queue_draw();
 		}
-
 		
 		private void disconnect_handlers(){
 			foreach (ulong handler in handlers){
@@ -238,6 +257,7 @@ namespace GNode{
 				edge.selected = true;
 			}
 			
+			graph.state_changed();
 			graph.state_changed.connect(invalidate_spanning);
 			node_area.queue_draw();
 		}
@@ -250,9 +270,5 @@ namespace GNode{
 			graph.state_changed.disconnect(invalidate_spanning);
 			node_area.queue_draw();
 		}
-
-
-
 	}
-
 }

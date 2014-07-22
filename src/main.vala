@@ -6,17 +6,16 @@ namespace GNode{
 				flags: ApplicationFlags.FLAGS_NONE);
 		}
 
-		protected override void activate () {
-			// Create the window of this application and show it
+		protected override void activate() {
 			GNode.Window window = new GNode.Window (this);
-			window.show_all ();
-			window.destroy.connect (Gtk.main_quit);
+			window.show_all();
+			window.destroy.connect(Gtk.main_quit);
 		}
 	
-		public static int main (string[] args) {
+		public static int main(string[] args) {
 			Gtk.init(ref args);
-			App app = new App ();
-			return app.run (args);
+			App app = new App();
+			return app.run(args);
 		}
 		
 	

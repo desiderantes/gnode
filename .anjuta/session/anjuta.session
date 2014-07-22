@@ -3,7 +3,7 @@ Maximized=1
 Geometry=1366x713+0+30
 
 [File Loader]
-Files=../../src/gnode.vala#91%%%../../src/graph.vala#117%%%../../src/link.vala#1%%%../../src/node.vala#87%%%../../src/main.vala#16%%%../../src/gnode.ui
+Files=../../src/gnode.vala#68%%%../../src/graph.vala#12%%%../../src/link.vala#64%%%../../src/node.vala#9%%%../../src/main.vala#9%%%../../src/auxiliar_graph.vala#1
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
@@ -15,10 +15,7 @@ Working directories=../../../gnode
 
 [Project Manager]
 Shortcut=gnode//src//gnode
-Expand=gnode%%%gnode//src%%%gnode//src//gnode%%%gnode//src//ui%%%gnode//dist_doc%%%gnode//GNODE
-
-[Debugger]
-Stop at beginning=2
+Expand=gnode%%%gnode//src%%%gnode//src//ui
 
 [Build]
 Configuration list=1:Default:%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
@@ -27,3 +24,6 @@ BuildArgs/Default=--enable-maintainer-mode
 BuildArgs/Debug=--enable-maintainer-mode 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0'
 BuildArgs/Profiling=--enable-maintainer-mode 'CFLAGS=-g -pg' 'CXXFLAGS=-g -pg' 'JFLAGS=-g -pg' 'FFLAGS=-g -pg'
 BuildArgs/Optimized=--enable-maintainer-mode 'CFLAGS=-O2' 'CXXFLAGS=-O2' 'JFLAGS=-O2' 'FFLAGS=-O2'
+
+[Debugger]
+Stop at beginning=2

@@ -29,20 +29,24 @@ namespace GNode{
 			return null;
 		}
 
+		public bool crosses(Link edge){
+			double slope=(edge.dst.y-edge.src.y)/(edge.dst.x-edge.src.x);
+			double dist1=slope*(edge.src.x-src.x)+src.y-edge.src.y;
+			double dist2=slope*(edge.dst.x-src.x)+src.y-edge.dst.y;
+			return dist1*dist2<0;
+		}
+		
 		public void draw(Cairo.Context ctx){
 			if(selected){
 				ctx.set_source_rgba(1, 0.9, 0.9, 1);
-
 			}else{
 				ctx.set_source_rgba(0.0, 0.0, 0.8, 0.6);
 			}
 			ctx.set_line_width(6.0);
-
 			if(src ==dst){
 				uint howmuch = parent.similar_edges(this) + 1;
 				ctx.move_to(src.x+(howmuch*20),src.y+(howmuch*20));
 				ctx.arc(src.x+(howmuch*20), src.y+(howmuch*20), howmuch*20, 0, 2.0*3.14);
-
 			}else{
 				ctx.move_to(src.x, src.y);
 				if(parent.similar_edges(this) > 0){
@@ -52,7 +56,6 @@ namespace GNode{
 					}else{
 						ctx.curve_to(src.x,src.y,  src.x  + (howmuch * 20),  dst.y + (howmuch * 20), src.x, src.y);
 					}
-
 				}else{
 					ctx.line_to(dst.x, dst.y);
 				}
@@ -62,11 +65,10 @@ namespace GNode{
 
 		public bool clicked(double xc, double yc){
 			if(src != dst){
-
+				return (xc <= Math.fmax(src.x, dst.x) && xc >= Math.fmin(src.x, dst.x) && yc <= Math.fmax(src.y, dst.y) && yc >= Math.fmin(src.y, dst.y));
 			}else{
 
 			}
-
 			return false;
 		}
 

@@ -22,6 +22,18 @@ namespace GNode{
 			
 		}
 
+		public void sort_edges(){
+			this.edges.sort((a,b)=>{ 
+				if(a.weight > b.weight){ 
+					return 1;
+				}else if(a.weight < b.weight){ 
+					return -1;
+				} else{ 
+					return 0;
+				}
+			});
+		}
+		
 		public Gee.ArrayList<Node> get_adjacency_list() {
 			var adjacency = new Gee.ArrayList<Node>();
 			foreach (Link edge in edges){
@@ -32,9 +44,6 @@ namespace GNode{
 		
 		public void connect_from (Node source, Link edge ){
 			edges.add(edge);
-			if(source == this){
-				graph.self_loop(this, edge);
-			}
 		}
 		
 		public void connect_to (Node dest, double weigth){

@@ -28,6 +28,7 @@ VALA_SOURCES = \
 	main.vala \
 	link.vala \
 	graph.vala\
+	auxiliar_graph.vala\
 	$(NULL)
 
 gnode_SOURCES = \
@@ -63,4 +64,3 @@ EXTRA_DIST = $(ui_DATA)
 uninstall-local:
 	-rm -r $(uidir)
 	-rm -r $(pkgdatadir)
-

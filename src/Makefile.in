@@ -85,8 +85,8 @@ bin_PROGRAMS = gnode$(EXEEXT)
 @NATIVE_WIN32_TRUE@am__append_3 = -mwindows
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am gnode.c \
-	node.c main.c link.c graph.c $(top_srcdir)/depcomp \
-	$(srcdir)/gnode_vala.stamp
+	node.c main.c link.c graph.c auxiliar_graph.c \
+	$(top_srcdir)/depcomp $(srcdir)/gnode_vala.stamp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -99,7 +99,8 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(uidir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 =
 am__objects_2 = gnode.$(OBJEXT) node.$(OBJEXT) main.$(OBJEXT) \
-	link.$(OBJEXT) graph.$(OBJEXT) $(am__objects_1)
+	link.$(OBJEXT) graph.$(OBJEXT) auxiliar_graph.$(OBJEXT) \
+	$(am__objects_1)
 am__objects_3 = gnode-resources.$(OBJEXT)
 am_gnode_OBJECTS = $(am__objects_2) $(am__objects_3) $(am__objects_1)
 gnode_OBJECTS = $(am_gnode_OBJECTS)
@@ -352,6 +353,7 @@ VALA_SOURCES = \
 	main.vala \
 	link.vala \
 	graph.vala\
+	auxiliar_graph.vala\
 	$(NULL)
 
 gnode_SOURCES = \
@@ -459,6 +461,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/auxiliar_graph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnode-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gnode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/graph.Po@am__quote@
@@ -511,9 +514,14 @@ $(srcdir)/graph.c: $(srcdir)/gnode_vala.stamp
 	@if test -f $@; then :; else \
 	  $(MAKE) $(AM_MAKEFLAGS) $(srcdir)/gnode_vala.stamp; \
 	fi
-$(srcdir)/gnode_vala.stamp: gnode.vala node.vala main.vala link.vala graph.vala config.vapi
+$(srcdir)/auxiliar_graph.c: $(srcdir)/gnode_vala.stamp
+	@if test -f $@; then :; else rm -f $(srcdir)/gnode_vala.stamp; fi
+	@if test -f $@; then :; else \
+	  $(MAKE) $(AM_MAKEFLAGS) $(srcdir)/gnode_vala.stamp; \
+	fi
+$(srcdir)/gnode_vala.stamp: gnode.vala node.vala main.vala link.vala graph.vala auxiliar_graph.vala config.vapi
 	$(AM_V_at)rm -f $@ && echo stamp > $@-t
-	$(AM_V_VALAC)$(am__cd) $(srcdir) && $(VALAC) $(gnode_VALAFLAGS) $(VALAFLAGS) -C gnode.vala node.vala main.vala link.vala graph.vala config.vapi
+	$(AM_V_VALAC)$(am__cd) $(srcdir) && $(VALAC) $(gnode_VALAFLAGS) $(VALAFLAGS) -C gnode.vala node.vala main.vala link.vala graph.vala auxiliar_graph.vala config.vapi
 	$(AM_V_at)mv -f $@-t $@
 
 mostlyclean-libtool:
@@ -664,12 +672,14 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-rm -f $(srcdir)/auxiliar_graph.c
 	-rm -f $(srcdir)/gnode.c
 	-rm -f $(srcdir)/gnode_vala.stamp
 	-rm -f $(srcdir)/graph.c
 	-rm -f $(srcdir)/link.c
 	-rm -f $(srcdir)/main.c
 	-rm -f $(srcdir)/node.c
+	-rm -f auxiliar_graph.c
 	-rm -f gnode.c
 	-rm -f graph.c
 	-rm -f link.c
