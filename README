@@ -1,0 +1,28 @@
+Gnode: A Gtk3 + Cairo node tool
+
+Building
+----------------------
+To build Gnode, install the following tools:
+
+- valac => 0.24
+- gcc (or clang)
+- make
+- tar
+
+As well as these dependencies:
+
+- gdk-pixbuf-2.0 
+- gdk-3.0 
+- gtk+-3.0 
+- gmodule-2.0
+- cairo
+- gee-0.8
+
+Remember to install the introspection packages as well, which
+look like this :
+
+- gir1.2-gee-0.8
+- gir1.2-gdkpixbuf-2.0
+...
+
+
